@@ -2,10 +2,11 @@
 import { ref } from 'vue';
 import Alerta from './components/Alerta.vue'
 import Spinner from './components/Spinner.vue'
+import Cotizacion from './components/Cotizacion.vue'
 import useCripto from './composables/useCripto';
 
 // llamamos al composable, es como un hook de react
-const {mostrarCotizacion, cotizar, monedas, criptoMonedas, cargando, cotizacion, obtenerCotizacion } = useCripto();
+const {cotizacion, mostrarCotizacion, cotizar, monedas, criptoMonedas, cargando, obtenerCotizacion } = useCripto();
 // defino el error de la alera que a su vez tiene un slot para poner elementos dentro
 const error = ref('')
 // objeto reactivo que necesita los datos de moneda y criptomoneda
@@ -56,19 +57,7 @@ const cotizarCripto = () => {
       <input type="submit" value="Cotizar">
       </form>
       <Spinner v-if="cargando" />
-      <div v-if="mostrarCotizacion" class="contenedor-resultado">
-        <h2>Cotización</h2>
-        <div class="resultado">
-          <img :src="'https://cryptocompare.com/' + cotizacion.IMAGEURL" class="" alt="imagen-cript">
-          <div>
-            <p>El precio es de: <span>{{ cotizacion.PRICE }}</span></p>
-            <p>El precio más alto del dia: <span>{{ cotizacion.HIGHDAY }}</span></p>
-            <p>El precio más bajo del dia <span>{{ cotizacion.LOWDAY }}</span></p>
-            <p>Validación Últimas 24 hrs: <span>{{ cotizacion.CHANGEPCT24HOUR }}%</span></p>
-            <p>Última actualización: <span>{{ cotizacion.LASTUPDATE }}</span></p>
-          </div>
-        </div>
-      </div>
+       <Cotizacion v-if="mostrarCotizacion" :cotizacion="cotizacion" />
     </div>
   </div>
 </template>
